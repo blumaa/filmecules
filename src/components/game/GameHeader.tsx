@@ -19,7 +19,7 @@ export function GameHeader({
   onNewGame,
   onToggleTestMode,
 }: GameHeaderProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // @ts-ignore - Will be used for future feature
   const [isTestmode, setIsTestmode] = useState(testMode);
   const remainingMistakes = maxMistakes - mistakes;
 
