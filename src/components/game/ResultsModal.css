@@ -7,8 +7,23 @@
 }
 
 .results-group {
-  background-color: var(--mond-colors-gray-100);
   border: 1px solid var(--mond-colors-gray-300);
+}
+
+.results-group.yellow {
+  background-color: #f7dc6f;
+}
+
+.results-group.green {
+  background-color: #52be80;
+}
+
+.results-group.blue {
+  background-color: #5dade2;
+}
+
+.results-group.purple {
+  background-color: #af7ac5;
 }
 
 .results-group-films {

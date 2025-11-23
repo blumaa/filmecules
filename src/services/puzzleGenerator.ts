@@ -4,14 +4,13 @@ import type {
   TMDBMovieDetails,
 } from '../types';
 import { tmdbService } from './tmdb';
+import { recentContentService } from './recentContent';
 
 interface PotentialGroup {
   films: TMDBMovieDetails[];
   connection: string;
   type: 'director' | 'actor' | 'franchise' | 'theme' | 'wordplay' | 'production';
-  difficultyScore: number; // 1-4 (1=easiest, 4=hardest)
-  color: 'yellow' | 'green' | 'blue' | 'purple';
-  difficulty: 'easy' | 'medium' | 'hard' | 'hardest';
+  difficultyScore: number; // Raw score - higher = harder
 }
 
 function tmdbMovieToFilm(movie: TMDBMovieDetails): Film {
@@ -21,14 +20,6 @@ function tmdbMovieToFilm(movie: TMDBMovieDetails): Film {
     year: new Date(movie.release_date).getFullYear(),
     poster_path: movie.poster_path || undefined,
   };
-}
-
-// Convert difficulty score to color and label
-function getDifficultyFromScore(score: number): { color: 'yellow' | 'green' | 'blue' | 'purple'; difficulty: 'easy' | 'medium' | 'hard' | 'hardest' } {
-  if (score <= 1) return { color: 'yellow', difficulty: 'easy' };
-  if (score <= 2) return { color: 'green', difficulty: 'medium' };
-  if (score <= 3) return { color: 'blue', difficulty: 'hard' };
-  return { color: 'purple', difficulty: 'hardest' };
 }
 
 // Specific thematic keywords that make interesting connections
@@ -77,17 +68,11 @@ function analyzeDirectors(movies: TMDBMovieDetails[]): PotentialGroup[] {
 
   for (const [, data] of directorMap) {
     if (data.movies.length >= 4) {
-      // Calculate difficulty based on director's average movie popularity
+      // Calculate difficulty score: lower avg vote count = higher difficulty
       const avgVoteCount = data.movies.reduce((sum, m) => sum + (m.vote_count || 0), 0) / data.movies.length;
 
-      // Score: 1 (easy) for very popular directors, 4 (hardest) for obscure ones
-      let difficultyScore: number;
-      if (avgVoteCount >= 5000) difficultyScore = 1; // Very popular (Spielberg, Nolan)
-      else if (avgVoteCount >= 2500) difficultyScore = 2; // Well-known
-      else if (avgVoteCount >= 1200) difficultyScore = 3; // Moderately known
-      else difficultyScore = 4; // Lesser known
-
-      const { color, difficulty } = getDifficultyFromScore(difficultyScore);
+      // Invert so higher score = harder (we'll sort later)
+      const difficultyScore = 10000 - avgVoteCount;
       const shuffled = [...data.movies].sort(() => Math.random() - 0.5);
 
       groups.push({
@@ -95,8 +80,6 @@ function analyzeDirectors(movies: TMDBMovieDetails[]): PotentialGroup[] {
         connection: `Directed by ${data.name}`,
         type: 'director',
         difficultyScore,
-        color,
-        difficulty,
       });
     }
   }
@@ -122,17 +105,11 @@ function analyzeActors(movies: TMDBMovieDetails[]): PotentialGroup[] {
 
   for (const [, data] of actorMap) {
     if (data.movies.length >= 4) {
-      // Calculate difficulty based on actor's average movie popularity
+      // Calculate difficulty score: lower avg vote count = higher difficulty
       const avgVoteCount = data.movies.reduce((sum, m) => sum + (m.vote_count || 0), 0) / data.movies.length;
 
-      // Score: 1 (easy) for very popular actors, 4 (hardest) for obscure ones
-      let difficultyScore: number;
-      if (avgVoteCount >= 5000) difficultyScore = 1; // Very popular (Tom Hanks, Meryl Streep)
-      else if (avgVoteCount >= 2500) difficultyScore = 2; // Well-known
-      else if (avgVoteCount >= 1200) difficultyScore = 3; // Moderately known
-      else difficultyScore = 4; // Lesser known
-
-      const { color, difficulty } = getDifficultyFromScore(difficultyScore);
+      // Invert so higher score = harder
+      const difficultyScore = 10000 - avgVoteCount;
       const shuffled = [...data.movies].sort(() => Math.random() - 0.5);
 
       groups.push({
@@ -140,8 +117,6 @@ function analyzeActors(movies: TMDBMovieDetails[]): PotentialGroup[] {
         connection: `Starring ${data.name}`,
         type: 'actor',
         difficultyScore,
-        color,
-        difficulty,
       });
     }
   }
@@ -167,16 +142,11 @@ function analyzeFranchises(movies: TMDBMovieDetails[]): PotentialGroup[] {
 
   for (const [, data] of franchiseMap) {
     if (data.movies.length >= 4) {
-      // Calculate difficulty based on franchise popularity
+      // Calculate difficulty score: lower avg vote count = higher difficulty
       const avgVoteCount = data.movies.reduce((sum, m) => sum + (m.vote_count || 0), 0) / data.movies.length;
 
-      let difficultyScore: number;
-      if (avgVoteCount >= 6000) difficultyScore = 1; // Very popular (Marvel, Star Wars)
-      else if (avgVoteCount >= 3000) difficultyScore = 2; // Well-known
-      else if (avgVoteCount >= 1500) difficultyScore = 3; // Moderately known
-      else difficultyScore = 4; // Lesser known
-
-      const { color, difficulty } = getDifficultyFromScore(difficultyScore);
+      // Invert so higher score = harder
+      const difficultyScore = 10000 - avgVoteCount;
       const shuffled = [...data.movies].sort(() => Math.random() - 0.5);
 
       groups.push({
@@ -184,8 +154,6 @@ function analyzeFranchises(movies: TMDBMovieDetails[]): PotentialGroup[] {
         connection: data.name,
         type: 'franchise',
         difficultyScore,
-        color,
-        difficulty,
       });
     }
   }
@@ -222,16 +190,16 @@ function analyzeThemes(movies: TMDBMovieDetails[]): PotentialGroup[] {
 
   for (const [themeName, data] of themeMap) {
     if (data.movies.length >= 4) {
-      const { color, difficulty } = getDifficultyFromScore(data.difficulty);
+      // Scale predefined difficulty (1-4) to match vote count scoring (higher = harder)
+      // Multiply by 2000 to put in similar range as vote-based scores
+      const difficultyScore = data.difficulty * 2000;
       const shuffled = [...data.movies].sort(() => Math.random() - 0.5);
 
       groups.push({
         films: shuffled.slice(0, 4),
         connection: themeName,
         type: 'theme',
-        difficultyScore: data.difficulty,
-        color,
-        difficulty,
+        difficultyScore,
       });
     }
   }
@@ -265,16 +233,15 @@ function analyzeProduction(movies: TMDBMovieDetails[]): PotentialGroup[] {
 
   for (const [, data] of productionMap) {
     if (data.movies.length >= 4) {
-      const { color, difficulty } = getDifficultyFromScore(data.difficulty);
+      // Scale predefined difficulty (1-4) to match vote count scoring (higher = harder)
+      const difficultyScore = data.difficulty * 2000;
       const shuffled = [...data.movies].sort(() => Math.random() - 0.5);
 
       groups.push({
         films: shuffled.slice(0, 4),
         connection: data.label,
         type: 'production',
-        difficultyScore: data.difficulty,
-        color,
-        difficulty,
+        difficultyScore,
       });
     }
   }
@@ -310,13 +277,14 @@ function analyzeWordplay(movies: TMDBMovieDetails[]): PotentialGroup[] {
   for (const [word, wordMovies] of wordMap) {
     if (wordMovies.length >= 4 && wordMovies.length <= 6) { // More restrictive range
       // Calculate difficulty based on word length and frequency
-      let difficultyScore: number;
-      if (word.length >= 8 && wordMovies.length === 4) difficultyScore = 4; // Long rare words = hardest
-      else if (word.length >= 7) difficultyScore = 3; // Longer words = harder
-      else if (wordMovies.length === 4) difficultyScore = 3; // Rare words = harder
-      else difficultyScore = 2; // Default medium
+      // Longer words and rarer occurrences = harder
+      let baseDifficulty = 2; // Default medium
+      if (word.length >= 8 && wordMovies.length === 4) baseDifficulty = 4; // Long rare words = hardest
+      else if (word.length >= 7) baseDifficulty = 3; // Longer words = harder
+      else if (wordMovies.length === 4) baseDifficulty = 3; // Rare words = harder
 
-      const { color, difficulty } = getDifficultyFromScore(difficultyScore);
+      // Scale to match vote count scoring
+      const difficultyScore = baseDifficulty * 2000;
       const shuffled = [...wordMovies].sort(() => Math.random() - 0.5);
 
       groups.push({
@@ -324,8 +292,6 @@ function analyzeWordplay(movies: TMDBMovieDetails[]): PotentialGroup[] {
         connection: `"${word.charAt(0).toUpperCase() + word.slice(1)}" in the title`,
         type: 'wordplay',
         difficultyScore,
-        color,
-        difficulty,
       });
     }
   }
@@ -333,29 +299,62 @@ function analyzeWordplay(movies: TMDBMovieDetails[]): PotentialGroup[] {
   return groups;
 }
 
+interface GroupWithColor extends PotentialGroup {
+  color: 'yellow' | 'green' | 'blue' | 'purple';
+  difficulty: 'easy' | 'medium' | 'hard' | 'hardest';
+}
+
 function selectNonOverlappingGroups(
   allGroups: PotentialGroup[]
-): PotentialGroup[] {
-  const selected: PotentialGroup[] = [];
-  const usedMovieIds = new Set<number>();
-
-  // Group potential groups by their color (color is now determined dynamically)
-  const groupsByColor = new Map<string, PotentialGroup[]>();
-
-  for (const group of allGroups) {
-    const color = group.color; // Use dynamic color from difficulty calculation
-    if (!groupsByColor.has(color)) {
-      groupsByColor.set(color, []);
-    }
-    groupsByColor.get(color)!.push(group);
+): GroupWithColor[] {
+  if (allGroups.length < 4) {
+    return []; // Not enough groups, will trigger retry
   }
 
-  // Shuffle groups within each color to add variety
+  // Sort all groups by difficulty score (lower score = easier)
+  const sorted = [...allGroups].sort((a, b) => a.difficultyScore - b.difficultyScore);
+
+  // Divide into quartiles and assign colors
+  const groupsWithColors: GroupWithColor[] = sorted.map((group, index) => {
+    const quartile = Math.floor((index / sorted.length) * 4);
+
+    let color: 'yellow' | 'green' | 'blue' | 'purple';
+    let difficulty: 'easy' | 'medium' | 'hard' | 'hardest';
+
+    if (quartile === 0) {
+      color = 'yellow';
+      difficulty = 'easy';
+    } else if (quartile === 1) {
+      color = 'green';
+      difficulty = 'medium';
+    } else if (quartile === 2) {
+      color = 'blue';
+      difficulty = 'hard';
+    } else {
+      color = 'purple';
+      difficulty = 'hardest';
+    }
+
+    return { ...group, color, difficulty };
+  });
+
+  // Group by color
+  const groupsByColor = new Map<string, GroupWithColor[]>();
+  for (const group of groupsWithColors) {
+    if (!groupsByColor.has(group.color)) {
+      groupsByColor.set(group.color, []);
+    }
+    groupsByColor.get(group.color)!.push(group);
+  }
+
+  // Shuffle within each color for variety
   for (const [color, groups] of groupsByColor) {
     groupsByColor.set(color, groups.sort(() => Math.random() - 0.5));
   }
 
-  // MUST select exactly one group of each color (yellow, green, blue, purple)
+  // Select one non-overlapping group from each color
+  const selected: GroupWithColor[] = [];
+  const usedMovieIds = new Set<number>();
   const requiredColors = ['yellow', 'green', 'blue', 'purple'];
 
   for (const color of requiredColors) {
@@ -370,14 +369,13 @@ function selectNonOverlappingGroups(
         selected.push(group);
         group.films.forEach((film) => usedMovieIds.add(film.id));
         foundForThisColor = true;
-        break; // Move to next color
+        break;
       }
     }
 
-    // If we couldn't find a group for this color, fail and return what we have
-    // This will trigger a retry in generatePuzzle
+    // If we couldn't find a group for this color, return incomplete to trigger retry
     if (!foundForThisColor) {
-      return selected; // Return incomplete selection to trigger retry
+      return selected;
     }
   }
 
@@ -453,18 +451,28 @@ export async function generatePuzzle(): Promise<{
   groups: Group[];
   films: Film[];
 }> {
+  // Get recently used content to avoid repetition
+  const recentFilmIds = recentContentService.getRecentFilmIds();
+  const recentConnections = recentContentService.getRecentConnections();
+
   // Fetch random pool of movies from different eras (150 total for better variety)
-  const moviePool = await tmdbService.getRandomMoviePool(150);
+  const allMovies = await tmdbService.getRandomMoviePool(150);
+
+  // Filter out recently used films to add variety
+  const moviePool = allMovies.filter(movie => !recentFilmIds.has(movie.id));
+
+  // If we filtered out too many, use all movies
+  const finalPool = moviePool.length >= 100 ? moviePool : allMovies;
 
   // Analyze pool to find all potential groupings
-  const directorGroups = analyzeDirectors(moviePool);
-  const actorGroups = analyzeActors(moviePool);
-  const franchiseGroups = analyzeFranchises(moviePool);
-  const themeGroups = analyzeThemes(moviePool);
-  const productionGroups = analyzeProduction(moviePool);
-  const wordplayGroups = analyzeWordplay(moviePool);
+  const directorGroups = analyzeDirectors(finalPool);
+  const actorGroups = analyzeActors(finalPool);
+  const franchiseGroups = analyzeFranchises(finalPool);
+  const themeGroups = analyzeThemes(finalPool);
+  const productionGroups = analyzeProduction(finalPool);
+  const wordplayGroups = analyzeWordplay(finalPool);
 
-  // Combine all potential groups
+  // Combine all potential groups and filter out recently used connections
   const allPotentialGroups = [
     ...directorGroups,
     ...actorGroups,
@@ -472,7 +480,7 @@ export async function generatePuzzle(): Promise<{
     ...themeGroups,
     ...productionGroups,
     ...wordplayGroups,
-  ];
+  ].filter(group => !recentConnections.has(group.connection));
 
   // Select 4 non-overlapping groups ensuring one of each color
   const selectedGroups = selectNonOverlappingGroups(allPotentialGroups);
@@ -485,13 +493,13 @@ export async function generatePuzzle(): Promise<{
     return generatePuzzle();
   }
 
-  // Convert to Group format - color/difficulty already calculated dynamically
+  // Convert to Group format - color/difficulty assigned by quartile
   const groups: Group[] = selectedGroups.map((pg, index) => ({
     id: `${pg.type}-${index}`,
     films: pg.films.map(tmdbMovieToFilm),
     connection: pg.connection,
-    difficulty: pg.difficulty, // Use dynamically calculated difficulty
-    color: pg.color, // Use dynamically calculated color
+    difficulty: pg.difficulty, // Assigned by quartile
+    color: pg.color, // Assigned by quartile
   }));
 
   // Flatten and shuffle all films

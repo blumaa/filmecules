@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { GameState } from '../types';
 import { generatePuzzle, generateTestPuzzle, shuffleArray } from '../services/puzzleGenerator';
+import { recentContentService } from '../services/recentContent';
 
 interface GameActions {
   selectFilm: (filmId: number) => void;
@@ -112,13 +113,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
         (film) => !matchedGroup.films.some((f) => f.id === film.id)
       );
 
+      const isGameWon = newFoundGroups.length === 4;
+
       set({
         foundGroups: newFoundGroups,
         films: remainingFilms,
         selectedFilmIds: [],
         previousGuesses: [...previousGuesses, sortedGuess],
-        gameStatus: newFoundGroups.length === 4 ? 'won' : 'playing',
+        gameStatus: isGameWon ? 'won' : 'playing',
       });
+
+      // Save used content when game is won
+      if (isGameWon) {
+        const allFilmIds = groups.flatMap(g => g.films.map(f => f.id));
+        const allConnections = groups.map(g => g.connection);
+        recentContentService.saveGame(allFilmIds, allConnections);
+      }
     } else {
       // Wrong guess
       const newMistakes = mistakes + 1;
@@ -133,6 +143,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
         films: isGameLost ? [] : films,
         isShaking: true,
       });
+
+      // Save used content when game is lost
+      if (isGameLost) {
+        const allFilmIds = groups.flatMap(g => g.films.map(f => f.id));
+        const allConnections = groups.map(g => g.connection);
+        recentContentService.saveGame(allFilmIds, allConnections);
+      }
 
       // Reset shake animation after 500ms
       setTimeout(() => set({ isShaking: false }), 500);

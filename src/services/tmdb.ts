@@ -127,8 +127,12 @@ export class TMDBService {
       const targetCount = Math.floor(size * era.weight);
       const eraMovies: TMDBMovieDetails[] = [];
 
-      // Fetch 2-3 pages from this era
-      const pages = [1, 2, Math.floor(Math.random() * 3) + 3];
+      // Fetch 3 random pages from this era to add variety (pages 1-20)
+      const pages = [
+        Math.floor(Math.random() * 7) + 1,   // 1-7
+        Math.floor(Math.random() * 7) + 8,   // 8-14
+        Math.floor(Math.random() * 6) + 15,  // 15-20
+      ];
 
       for (const page of pages) {
         if (eraMovies.length >= targetCount) break;

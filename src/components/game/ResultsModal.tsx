@@ -43,8 +43,12 @@ export function ResultsModal({
 
         <Box display="flex" flexDirection="column" gap="sm">
           {groups.map((group) => (
-            <div key={group.id} className="results-group">
-              <Box padding="3" corners="rounded-md">
+            <div key={group.id}>
+              <Box
+                padding="3"
+                corners="rounded-md"
+                className={`results-group ${group.color}`}
+              >
                 <Text weight="semibold" variant="body">
                   {group.connection}
                 </Text>
