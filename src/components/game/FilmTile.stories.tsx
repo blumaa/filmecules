@@ -49,24 +49,39 @@ export const Shaking: Story = {
   },
 };
 
-export const LongTitle: Story = {
+// Normal text: ≤12 characters (no special props)
+export const NormalText: Story = {
   args: {
     film: {
       id: 2,
-      title: "The Lord of the Rings: The Return of the King",
-      year: 2003,
+      title: "The Matrix", // 10 characters
+      year: 1999,
     },
     isSelected: false,
     isShaking: false,
   },
 };
 
-export const ShortTitle: Story = {
+// Long text: >12 and ≤20 characters (isLongText prop)
+export const LongText: Story = {
   args: {
     film: {
       id: 3,
-      title: "Jaws",
-      year: 1975,
+      title: "Jurassic Park", // 13 characters
+      year: 1993,
+    },
+    isSelected: false,
+    isShaking: false,
+  },
+};
+
+// Really long text: >20 characters (isReallyLongText prop)
+export const ReallyLongText: Story = {
+  args: {
+    film: {
+      id: 4,
+      title: "The Shawshank Redemption", // 24 characters
+      year: 1994,
     },
     isSelected: false,
     isShaking: false,

@@ -8,12 +8,25 @@ interface FilmTileProps {
   onClick: () => void;
 }
 
+function getTextLengthProps(title: string) {
+  const length = title.length;
+  if (length > 20) {
+    return { isReallyLongText: true };
+  }
+  if (length > 12) {
+    return { isLongText: true };
+  }
+  return {};
+}
+
 export function FilmTile({
   film,
   isSelected,
   isShaking,
   onClick,
 }: FilmTileProps) {
+  const textLengthProps = getTextLengthProps(film.title);
+
   return (
     <Card
       aspectRatio="square"
@@ -31,7 +44,7 @@ export function FilmTile({
           justifyContent="center"
           height="full"
         >
-          <Text responsive align="center">
+          <Text responsive align="center" {...textLengthProps}>
             {film.title}
           </Text>
         </Box>
