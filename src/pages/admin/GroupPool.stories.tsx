@@ -102,11 +102,8 @@ function GroupPoolDisplay({
         isLoading={isLoading}
         error={error}
         editingId={null}
-        editedConnection=""
-        onEdit={() => {}}
         onSaveEdit={() => {}}
         onCancelEdit={() => {}}
-        onConnectionChange={() => {}}
         onColorChange={() => {}}
         onApprove={() => {}}
         onReject={() => {}}

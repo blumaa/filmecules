@@ -10,12 +10,9 @@ interface GroupPoolListProps {
   error: Error | null;
   // Editing state
   editingId: string | null;
-  editedConnection: string;
   // Callbacks
-  onEdit: (id: string, connection: string, color: DifficultyColor | null) => void;
   onSaveEdit: (id: string) => void;
   onCancelEdit: () => void;
-  onConnectionChange: (value: string) => void;
   onColorChange: (id: string, color: DifficultyColor) => void;
   onApprove: (id: string) => void;
   onReject: (id: string) => void;
@@ -33,11 +30,8 @@ export function GroupPoolList({
   isLoading,
   error,
   editingId,
-  editedConnection,
-  onEdit,
   onSaveEdit,
   onCancelEdit,
-  onConnectionChange,
   onColorChange,
   onApprove,
   onReject,
@@ -85,11 +79,8 @@ export function GroupPoolList({
             key={group.id}
             group={group}
             isEditing={editingId === group.id}
-            editedConnection={editedConnection}
-            onEdit={() => onEdit(group.id, group.connection, group.color)}
             onSaveEdit={() => onSaveEdit(group.id)}
             onCancelEdit={onCancelEdit}
-            onConnectionChange={onConnectionChange}
             onColorChange={onColorChange}
             onApprove={() => onApprove(group.id)}
             onReject={() => onReject(group.id)}

@@ -9,7 +9,7 @@ import { createContext } from 'react';
 import { LocalStatsStorage } from '../services/LocalStatsStorage';
 import type { IStatsStorage } from '../types';
 
-// Create singleton instance
-const statsStorage = new LocalStatsStorage();
+// Create singleton instance - shared across the app
+export const statsStorage = new LocalStatsStorage();
 
 export const StatsContext = createContext<IStatsStorage>(statsStorage);

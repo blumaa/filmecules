@@ -1,5 +1,5 @@
 import { Box, Heading, Text } from "@mond-design-system/theme";
-import { formatPuzzleHeader } from "../../utils/date";
+import { formatPuzzleHeader } from "../../utils/index";
 import { CountdownTimer } from "./CountdownTimer";
 import "./GameHeader.css";
 

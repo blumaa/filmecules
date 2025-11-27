@@ -90,3 +90,14 @@ export function formatPuzzleHeader(dateString: string): string {
   const formattedDate = formatDate(dateString);
   return `Filmecules #${puzzleNumber} - ${formattedDate}`;
 }
+
+export function getTextLengthProps(title: string) {
+  const length = title.length;
+  if (length > 20) {
+    return { isReallyLongText: true };
+  }
+  if (length > 12) {
+    return { isLongText: true };
+  }
+  return {};
+}

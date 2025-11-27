@@ -1,20 +1,20 @@
-.found-group-row {
+.film-group-card {
   transition: all 0.3s ease;
 }
 
-.found-group-row.yellow {
+.film-group-card.yellow {
   background-color: rgb(249, 223, 109);
 }
 
-.found-group-row.green {
+.film-group-card.green {
   background-color: rgb(160, 195, 90);
 }
 
-.found-group-row.blue {
+.film-group-card.blue {
   background-color: rgb(176, 196, 239);
 }
 
-.found-group-row.purple {
+.film-group-card.purple {
   background-color: rgb(186, 129, 197);
 }
 

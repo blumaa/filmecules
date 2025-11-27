@@ -64,16 +64,6 @@ export function PuzzleBuilder() {
   // Check if all groups are selected
   const allSelected = colors.every((color) => selectedGroups[color] !== null);
 
-  // Calculate quality score (normalized to 0-100 scale)
-  // Raw difficulty scores range from ~0-10000, normalize to 0-100
-  const qualityScore = useMemo(() => {
-    const selected = Object.values(selectedGroups).filter((g): g is StoredGroup => g !== null);
-    if (selected.length === 0) return 0;
-    const avgScore = selected.reduce((sum, g) => sum + g.difficultyScore, 0) / selected.length;
-    // Normalize: 0-10000 -> 0-100, capped at 100
-    return Math.min(100, Math.round(avgScore / 100));
-  }, [selectedGroups]);
-
   const handleSelectGroup = (color: DifficultyColor, group: StoredGroup) => {
     setSelectedGroups((prev) => ({ ...prev, [color]: group }));
     setActiveColor(null);
@@ -91,7 +81,6 @@ export function PuzzleBuilder() {
     const puzzleInput: PuzzleInput = {
       groupIds,
       title: title.trim() || undefined,
-      qualityScore,
     };
 
     try {
@@ -250,14 +239,9 @@ export function PuzzleBuilder() {
       {allSelected && (
         <Box className="preview-section" padding="4">
           <Box display="flex" flexDirection="column" gap="md">
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Heading level={2} size="lg">
-                Puzzle Preview
-              </Heading>
-              <Text size="md">
-                Quality Score: {qualityScore}
-              </Text>
-            </Box>
+            <Heading level={2} size="lg">
+              Puzzle Preview
+            </Heading>
 
             <Box display="flex" flexDirection="column" gap="sm">
               {colors.map((color) => (

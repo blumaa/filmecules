@@ -6,7 +6,7 @@ import { ResultsModal } from "../components/game/ResultsModal";
 import { useStorage } from "../providers/useStorage";
 import { useStats } from "../providers/useStats";
 import { useDailyPuzzle } from "../lib/supabase/storage";
-import { getTodayDate } from "../utils/date";
+import { getTodayDate } from "../utils/index";
 import type { GameResult } from "../types";
 
 export function HomePage() {

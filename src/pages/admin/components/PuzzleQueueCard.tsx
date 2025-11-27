@@ -2,7 +2,7 @@ import { Box, Text, Button, Card, CardBody, Divider } from '@mond-design-system/
 import { Input } from '@mond-design-system/theme/client';
 import type { StoredPuzzle, PuzzleStatus } from '../../../lib/supabase/storage/IPuzzleStorage';
 import type { Group } from '../../../types';
-import { FoundGroupRow } from '../../../components/game/FoundGroupRow';
+import { FilmGroupCard } from '../../../components/game/FilmGroupCard';
 import { PuzzleQueueCardHeader } from './PuzzleQueueCardHeader';
 import './PuzzleQueueCard.css';
 
@@ -31,7 +31,6 @@ export function PuzzleQueueCard({
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <PuzzleQueueCardHeader
               status={puzzle.status}
-              qualityScore={puzzle.qualityScore}
               title={puzzle.title}
               puzzleDate={puzzle.puzzleDate}
             />
@@ -112,7 +111,7 @@ export function PuzzleQueueCard({
           {/* Puzzle Groups */}
           <Box display="flex" flexDirection="column" gap="sm">
             {puzzle.groups?.map((group, index) => (
-              <FoundGroupRow key={index} group={group as Group} />
+              <FilmGroupCard key={index} group={group as Group} />
             ))}
             {!puzzle.groups?.length && (
               <Text responsive semantic="secondary">Groups not loaded</Text>

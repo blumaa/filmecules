@@ -10,14 +10,12 @@ const STATUS_BADGE_VARIANTS: Record<PuzzleStatus, BadgeVariant> = {
 
 interface PuzzleQueueCardHeaderProps {
   status: PuzzleStatus;
-  qualityScore: number;
   title?: string | null;
   puzzleDate?: string | null;
 }
 
 export function PuzzleQueueCardHeader({
   status,
-  qualityScore,
   title,
   puzzleDate,
 }: PuzzleQueueCardHeaderProps) {
@@ -26,9 +24,6 @@ export function PuzzleQueueCardHeader({
       <Badge variant={STATUS_BADGE_VARIANTS[status]}>
         {status.toUpperCase()}
       </Badge>
-      <Text responsive weight="medium">
-        Quality: {qualityScore}/100
-      </Text>
       {title && <Text responsive semantic="secondary">Title: {title}</Text>}
       {puzzleDate && (
         <Text responsive semantic="secondary">

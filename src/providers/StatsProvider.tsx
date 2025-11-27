@@ -6,11 +6,7 @@
  */
 
 import { ReactNode } from 'react';
-import { LocalStatsStorage } from '../services/LocalStatsStorage';
-import { StatsContext } from './useStatsContext';
-
-// Create storage instance (singleton)
-const statsStorage = new LocalStatsStorage();
+import { StatsContext, statsStorage } from './useStatsContext';
 
 interface StatsProviderProps {
   children: ReactNode;

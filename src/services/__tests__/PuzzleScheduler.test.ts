@@ -9,7 +9,7 @@ import type { IStatsStorage, UserStats } from '../../types/stats';
 import type { SavedPuzzle } from '../../lib/puzzle-engine/types';
 
 // Mock getTodayDate
-vi.mock('../../utils/date', () => ({
+vi.mock('../../utils/index', () => ({
   getTodayDate: () => '2025-01-15',
 }));
 

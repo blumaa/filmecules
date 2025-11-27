@@ -62,7 +62,6 @@ export interface Database {
           title: string | null;
           group_ids: string[];
           status: 'pending' | 'approved' | 'published' | 'rejected';
-          quality_score: number;
           metadata: Json | null;
         };
         Insert: {
@@ -72,7 +71,6 @@ export interface Database {
           title?: string | null;
           group_ids?: string[];
           status?: 'pending' | 'approved' | 'published' | 'rejected';
-          quality_score: number;
           metadata?: Json | null;
         };
         Update: {
@@ -82,7 +80,6 @@ export interface Database {
           title?: string | null;
           group_ids?: string[];
           status?: 'pending' | 'approved' | 'published' | 'rejected';
-          quality_score?: number;
           metadata?: Json | null;
         };
       };
@@ -188,6 +185,70 @@ export interface Database {
           name?: string;
           config?: Json;
           created_by?: string;
+        };
+      };
+      connection_types: {
+        Row: {
+          id: string;
+          created_at: string;
+          name: string;
+          category: string;
+          description: string;
+          examples: string[] | null;
+          active: boolean;
+        };
+        Insert: {
+          id?: string;
+          created_at?: string;
+          name: string;
+          category: string;
+          description: string;
+          examples?: string[] | null;
+          active?: boolean;
+        };
+        Update: {
+          id?: string;
+          created_at?: string;
+          name?: string;
+          category?: string;
+          description?: string;
+          examples?: string[] | null;
+          active?: boolean;
+        };
+      };
+      group_feedback: {
+        Row: {
+          id: string;
+          created_at: string;
+          films: Json;
+          connection: string;
+          connection_type_id: string | null;
+          explanation: string | null;
+          accepted: boolean;
+          rejection_reason: string | null;
+          generation_filters: Json | null;
+        };
+        Insert: {
+          id?: string;
+          created_at?: string;
+          films: Json;
+          connection: string;
+          connection_type_id?: string | null;
+          explanation?: string | null;
+          accepted: boolean;
+          rejection_reason?: string | null;
+          generation_filters?: Json | null;
+        };
+        Update: {
+          id?: string;
+          created_at?: string;
+          films?: Json;
+          connection?: string;
+          connection_type_id?: string | null;
+          explanation?: string | null;
+          accepted?: boolean;
+          rejection_reason?: string | null;
+          generation_filters?: Json | null;
         };
       };
     };

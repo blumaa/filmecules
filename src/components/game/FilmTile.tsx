@@ -1,22 +1,12 @@
 import { Card, CardBody, Box, Text } from "@mond-design-system/theme";
 import type { Film } from "../../types";
+import { getTextLengthProps } from "../../utils";
 
 interface FilmTileProps {
   film: Film;
   isSelected: boolean;
   isShaking?: boolean;
   onClick: () => void;
-}
-
-function getTextLengthProps(title: string) {
-  const length = title.length;
-  if (length > 20) {
-    return { isReallyLongText: true };
-  }
-  if (length > 12) {
-    return { isLongText: true };
-  }
-  return {};
 }
 
 export function FilmTile({

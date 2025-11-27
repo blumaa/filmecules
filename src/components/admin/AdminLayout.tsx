@@ -15,6 +15,7 @@ interface NavLink {
 
 const NAV_LINKS: NavLink[] = [
   { path: "/admin", label: "Dashboard" },
+  { path: "/admin/connection-types", label: "Connection Types" },
   { path: "/admin/generate", label: "Generate Groups" },
   { path: "/admin/groups", label: "Group Pool" },
   { path: "/admin/build", label: "Build Puzzle" },

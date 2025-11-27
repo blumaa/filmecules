@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { FoundGroupRow } from './FoundGroupRow';
+import { FilmGroupCard } from './FilmGroupCard';
 import { MockThemeProvider } from '../../../.storybook/MockThemeProvider';
 
 const mockFilms = [
@@ -9,9 +9,9 @@ const mockFilms = [
   { id: 4, title: 'Django Unchained', year: 2012 },
 ];
 
-const meta: Meta<typeof FoundGroupRow> = {
-  title: 'Game/FoundGroupRow',
-  component: FoundGroupRow,
+const meta: Meta<typeof FilmGroupCard> = {
+  title: 'Game/FilmGroupCard',
+  component: FilmGroupCard,
   parameters: {
     layout: 'padded',
   },
@@ -26,7 +26,7 @@ const meta: Meta<typeof FoundGroupRow> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof FoundGroupRow>;
+type Story = StoryObj<typeof FilmGroupCard>;
 
 export const Yellow: Story = {
   args: {
@@ -91,7 +91,7 @@ export const LongConnection: Story = {
 export const AllColors: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <FoundGroupRow
+      <FilmGroupCard
         group={{
           id: '1',
           films: mockFilms,
@@ -100,7 +100,7 @@ export const AllColors: Story = {
           color: 'yellow',
         }}
       />
-      <FoundGroupRow
+      <FilmGroupCard
         group={{
           id: '2',
           films: mockFilms,
@@ -109,7 +109,7 @@ export const AllColors: Story = {
           color: 'green',
         }}
       />
-      <FoundGroupRow
+      <FilmGroupCard
         group={{
           id: '3',
           films: mockFilms,
@@ -118,7 +118,7 @@ export const AllColors: Story = {
           color: 'blue',
         }}
       />
-      <FoundGroupRow
+      <FilmGroupCard
         group={{
           id: '4',
           films: mockFilms,
@@ -130,4 +130,3 @@ export const AllColors: Story = {
     </div>
   ),
 };
-

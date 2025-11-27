@@ -6,7 +6,7 @@
  */
 
 import type { IStatsStorage, UserStats, GameResult } from '../types/stats';
-import { getTodayDate } from '../utils/date';
+import { getTodayDate } from '../utils/index';
 
 const STORAGE_KEY = 'filmecules-stats';
 

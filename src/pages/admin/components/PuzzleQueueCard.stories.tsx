@@ -61,7 +61,6 @@ const basePuzzle: StoredPuzzle = {
   title: 'Movie Connections #42',
   groupIds: ['1', '2', '3', '4'],
   status: 'pending',
-  qualityScore: 85,
   groups: mockGroups,
 };
 

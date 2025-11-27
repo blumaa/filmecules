@@ -48,10 +48,8 @@ const meta: Meta<typeof GroupPoolCard> = {
     ),
   ],
   argTypes: {
-    onEdit: { action: 'edit' },
     onSaveEdit: { action: 'save' },
     onCancelEdit: { action: 'cancel' },
-    onConnectionChange: { action: 'connectionChange' },
     onColorChange: { action: 'colorChange' },
     onApprove: { action: 'approve' },
     onReject: { action: 'reject' },
@@ -65,7 +63,6 @@ export const Pending: Story = {
   args: {
     group: mockGroup,
     isEditing: false,
-    editedConnection: '',
     isUpdating: false,
     isDeleting: false,
   },
@@ -75,7 +72,6 @@ export const Approved: Story = {
   args: {
     group: approvedGroup,
     isEditing: false,
-    editedConnection: '',
     isUpdating: false,
     isDeleting: false,
   },
@@ -85,7 +81,6 @@ export const Editing: Story = {
   args: {
     group: mockGroup,
     isEditing: true,
-    editedConnection: 'Directed by Quentin Tarantino',
     isUpdating: false,
     isDeleting: false,
   },
@@ -95,7 +90,6 @@ export const Updating: Story = {
   args: {
     group: mockGroup,
     isEditing: true,
-    editedConnection: 'Directed by Quentin Tarantino',
     isUpdating: true,
     isDeleting: false,
   },
@@ -117,7 +111,6 @@ export const BlueGroup: Story = {
       ],
     },
     isEditing: false,
-    editedConnection: '',
     isUpdating: false,
     isDeleting: false,
   },
@@ -139,7 +132,6 @@ export const PurpleGroup: Story = {
       ],
     },
     isEditing: false,
-    editedConnection: '',
     isUpdating: false,
     isDeleting: false,
   },

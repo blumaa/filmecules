@@ -20,7 +20,6 @@ export type PuzzleStatus = Database['public']['Tables']['puzzles']['Row']['statu
 export interface PuzzleInput {
   groupIds: string[];
   title?: string | null;
-  qualityScore: number;
   metadata?: Record<string, unknown>;
 }
 
@@ -35,7 +34,6 @@ export interface StoredPuzzle {
   title: string | null;
   groupIds: string[];
   status: PuzzleStatus;
-  qualityScore: number;
   metadata?: Record<string, unknown>;
   // Populated when fetched with groups
   groups?: Group[];
@@ -46,8 +44,6 @@ export interface StoredPuzzle {
  */
 export interface PuzzleListFilters {
   status?: PuzzleStatus | PuzzleStatus[];
-  qualityScoreMin?: number;
-  qualityScoreMax?: number;
   dateFrom?: string;
   dateTo?: string;
   limit?: number;
@@ -60,7 +56,6 @@ export interface PuzzleListFilters {
 export interface PuzzleUpdate {
   status?: PuzzleStatus;
   puzzleDate?: string | null;
-  qualityScore?: number;
   metadata?: Record<string, unknown>;
 }
 

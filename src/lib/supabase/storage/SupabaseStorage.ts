@@ -47,7 +47,6 @@ export class SupabaseStorage implements IPuzzleStorage {
       title: row.title,
       groupIds: row.group_ids,
       status: row.status,
-      qualityScore: row.quality_score,
       metadata: row.metadata as Record<string, unknown> | undefined,
     };
   }
@@ -94,7 +93,6 @@ export class SupabaseStorage implements IPuzzleStorage {
     const insert: DbPuzzleInsert = {
       group_ids: puzzle.groupIds,
       title: puzzle.title ?? null,
-      quality_score: puzzle.qualityScore,
       status: 'pending',
       metadata: puzzle.metadata as DbPuzzleInsert['metadata'],
     };
@@ -185,14 +183,6 @@ export class SupabaseStorage implements IPuzzleStorage {
       }
     }
 
-    if (filters?.qualityScoreMin !== undefined) {
-      query = query.gte('quality_score', filters.qualityScoreMin);
-    }
-
-    if (filters?.qualityScoreMax !== undefined) {
-      query = query.lte('quality_score', filters.qualityScoreMax);
-    }
-
     if (filters?.dateFrom) {
       query = query.gte('puzzle_date', filters.dateFrom);
     }
@@ -245,10 +235,6 @@ export class SupabaseStorage implements IPuzzleStorage {
 
     if (updates.puzzleDate !== undefined) {
       dbUpdate.puzzle_date = updates.puzzleDate ?? null;
-    }
-
-    if (updates.qualityScore !== undefined) {
-      dbUpdate.quality_score = updates.qualityScore;
     }
 
     if (updates.metadata !== undefined) {

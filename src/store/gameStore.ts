@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { GameState, Group, Film } from '../types';
-import { shuffleArray } from '../services/puzzleGenerator';
+import { shuffleArray } from '../lib/puzzle-engine/utils/shuffle';
 
 interface GameActions {
   selectFilm: (filmId: number) => void;

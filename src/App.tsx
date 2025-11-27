@@ -13,11 +13,12 @@ import { RequireAdmin } from "./components/admin/RequireAdmin";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import { AdminDashboard } from "./pages/admin/Dashboard";
 import { PuzzleQueue } from "./pages/admin/PuzzleQueue";
-import { GroupGeneratorPage } from "./pages/admin/GroupGeneratorPage";
 import { GroupPool } from "./pages/admin/GroupPool";
 import { PuzzleBuilder } from "./pages/admin/PuzzleBuilder";
 import { ThemeManager as AdminThemeManager } from "./pages/admin/ThemeManager";
 import { Analytics } from "./pages/admin/Analytics";
+import { ConnectionTypesPage } from "./pages/admin/ConnectionTypesPage";
+import { NewGroupGeneratorPage } from "./pages/admin/NewGroupGeneratorPage";
 import { ThemeToggle } from "./components/ThemeToggle";
 import { Footer } from "./components/Footer";
 
@@ -74,16 +75,6 @@ function ThemedApp() {
                 }
               />
               <Route
-                path="/admin/generate"
-                element={
-                  <RequireAdmin>
-                    <AdminLayout>
-                      <GroupGeneratorPage />
-                    </AdminLayout>
-                  </RequireAdmin>
-                }
-              />
-              <Route
                 path="/admin/groups"
                 element={
                   <RequireAdmin>
@@ -119,6 +110,26 @@ function ThemedApp() {
                   <RequireAdmin>
                     <AdminLayout>
                       <Analytics />
+                    </AdminLayout>
+                  </RequireAdmin>
+                }
+              />
+              <Route
+                path="/admin/connection-types"
+                element={
+                  <RequireAdmin>
+                    <AdminLayout>
+                      <ConnectionTypesPage />
+                    </AdminLayout>
+                  </RequireAdmin>
+                }
+              />
+              <Route
+                path="/admin/generate"
+                element={
+                  <RequireAdmin>
+                    <AdminLayout>
+                      <NewGroupGeneratorPage />
                     </AdminLayout>
                   </RequireAdmin>
                 }

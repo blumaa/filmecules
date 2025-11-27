@@ -61,7 +61,6 @@ export function GroupPool() {
 
   // Editing state
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editedConnection, setEditedConnection] = useState('');
   const [editedColor, setEditedColor] = useState<DifficultyColor>('green');
 
   const handleApprove = (id: string) => {
@@ -90,20 +89,13 @@ export function GroupPool() {
     }
   };
 
-  const handleStartEdit = (id: string, currentConnection: string, currentColor: DifficultyColor | null) => {
-    setEditingId(id);
-    setEditedConnection(currentConnection);
-    setEditedColor(currentColor || 'green');
-  };
-
   const handleSaveEdit = (id: string) => {
     const difficulty = COLOR_TO_DIFFICULTY[editedColor];
     updateMutation.mutate(
-      { id, updates: { connection: editedConnection, color: editedColor, difficulty } },
+      { id, updates: { color: editedColor, difficulty } },
       {
         onSuccess: () => {
           setEditingId(null);
-          setEditedConnection('');
           setEditedColor('green');
           toast.showSuccess('Group updated');
         },
@@ -114,7 +106,6 @@ export function GroupPool() {
 
   const handleCancelEdit = () => {
     setEditingId(null);
-    setEditedConnection('');
     setEditedColor('green');
   };
 
@@ -157,11 +148,8 @@ export function GroupPool() {
         isLoading={isLoading}
         error={error}
         editingId={editingId}
-        editedConnection={editedConnection}
-        onEdit={handleStartEdit}
         onSaveEdit={handleSaveEdit}
         onCancelEdit={handleCancelEdit}
-        onConnectionChange={setEditedConnection}
         onColorChange={handleGroupColorChange}
         onApprove={handleApprove}
         onReject={handleReject}

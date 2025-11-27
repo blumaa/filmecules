@@ -1,7 +1,7 @@
 import { Box, Button } from "@mond-design-system/theme";
 import { useGameStore } from "../../store/gameStore";
 import { useToast } from "../../providers/useToast";
-import { FoundGroupRow } from "./FoundGroupRow";
+import { FilmGroupCard } from "./FilmGroupCard";
 import { FilmGrid } from "./FilmGrid";
 import { GameControls } from "./GameControls";
 import { GameHeader } from "./GameHeader";
@@ -54,7 +54,7 @@ export function GameBoard({ onViewStats }: GameBoardProps) {
         {foundGroups.length > 0 && (
           <div className="found-groups-container">
             {foundGroups.map((group) => (
-              <FoundGroupRow key={group.id} group={group} />
+              <FilmGroupCard key={group.id} group={group} />
             ))}
           </div>
         )}
