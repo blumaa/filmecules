@@ -25,7 +25,6 @@ export function FilmGroupCard({ group }: FilmGroupCardProps) {
       >
         <Heading
           level={3}
-          size="lg"
           responsive
           color="black.900"
           {...textLengthProps}
