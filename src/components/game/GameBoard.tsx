@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@mond-design-system/theme";
+import { Box, Button, Icon, Text } from "@mond-design-system/theme";
 import { useGameStore } from "../../store/gameStore";
 import { useToast } from "../../providers/useToast";
 import { FilmGroupCard } from "./FilmGroupCard";
@@ -73,16 +73,17 @@ export function GameBoard({ onViewStats }: GameBoardProps) {
           <MistakesIndicator mistakes={mistakes} maxMistakes={MAX_MISTAKES} />
         ) : (
           onViewStats && (
-            <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onViewStats}
-                iconOnly
-              >
-                <StatsIcon />
+            <Box display="flex" justifyContent="center">
+              <Button variant="ghost" size="sm" onClick={onViewStats}>
+                <Box display="flex" flexDirection="column" alignItems="center">
+                  <Icon size="lg">
+                    <StatsIcon />
+                  </Icon>
+                  <Text responsive size="xs">
+                    Stats
+                  </Text>
+                </Box>
               </Button>
-              <Text size="3xs">Stats</Text>
             </Box>
           )
         )}

@@ -38,7 +38,6 @@ export function FilmGroupCard({ group }: FilmGroupCardProps) {
             rowGap: "1px",
           }}
         >
-        {/* <Box display="flex" gap="xxs" flexWrap="wrap" justifyContent="center" rowGap="xxs"> */}
           {group.films.map((film, index) => {
             return (
               <Text key={film.id} responsive color="black.900">
@@ -47,7 +46,6 @@ export function FilmGroupCard({ group }: FilmGroupCardProps) {
               </Text>
             );
           })}
-        {/* </Box> */}
         </div>
       </Box>
     </Card>
