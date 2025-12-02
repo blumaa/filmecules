@@ -1,0 +1,12 @@
+.about-page {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.about-content {
+  width: 100%;
+}
+
+.about-back-link {
+  text-decoration: none;
+}

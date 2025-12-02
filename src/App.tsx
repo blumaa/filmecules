@@ -7,6 +7,8 @@ import { useThemeContext } from "./providers/useThemeContext";
 import { StorageProvider } from "./providers/StorageProvider";
 import { StatsProvider } from "./providers/StatsProvider";
 import { HomePage } from "./pages/HomePage";
+import { PrivacyPage } from "./pages/PrivacyPage";
+import { AboutPage } from "./pages/AboutPage";
 import { ThemeToggle } from "./components/ThemeToggle";
 import { Footer } from "./components/Footer";
 
@@ -38,6 +40,8 @@ function ThemedApp() {
             </Box>
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/about" element={<AboutPage />} />
             </Routes>
             <Footer />
           </div>

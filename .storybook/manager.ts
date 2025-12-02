@@ -3,7 +3,7 @@ import { create } from 'storybook/theming';
 
 const theme = create({
   base: 'light',
-  brandTitle: 'Filmecules',
+  brandTitle: 'Filmclues',
   brandImage: undefined,
 });
 

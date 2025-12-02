@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 type Theme = 'light' | 'dark';
 
-const STORAGE_KEY = 'filmecules-theme';
+const STORAGE_KEY = 'filmclues-theme';
 
 /**
  * Gets the user's system color scheme preference

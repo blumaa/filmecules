@@ -1,6 +1,6 @@
 export const EVENTS = {
   // Game lifecycle
-  GAME_STARTED: "game_started",
+  GAME_STARTED: "filmclues_game_started",
   GAME_RESUMED: "game_resumed",
   GAME_WON: "game_won",
   GAME_LOST: "game_lost",

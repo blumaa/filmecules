@@ -1,0 +1,17 @@
+.privacy-page {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.privacy-content {
+  width: 100%;
+}
+
+.privacy-list {
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.privacy-back-link {
+  text-decoration: none;
+}

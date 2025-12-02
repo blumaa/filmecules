@@ -1,4 +1,5 @@
 import { Box, Heading, Text } from "@mond-design-system/theme";
+import { SITE_NAME } from "../../constants";
 import { formatPuzzleHeader } from "../../utils/index";
 import { CountdownTimer } from "./CountdownTimer";
 import "./GameHeader.css";
@@ -15,7 +16,7 @@ export function GameHeader({
   return (
     <Box display="flex" flexDirection="column">
       <Heading level={1} size="md" align="center">
-        {puzzleDate ? formatPuzzleHeader(puzzleDate) : "Filmecules"}
+        {puzzleDate ? formatPuzzleHeader(puzzleDate) : SITE_NAME}
       </Heading>
 
       {gameStatus === "playing" ? (

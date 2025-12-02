@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../constants";
+
 /**
  * Date Utilities
  *
@@ -83,12 +85,12 @@ export function getPuzzleNumber(dateString: string): number {
  * Format date for puzzle header display.
  *
  * @param dateString - Date string (YYYY-MM-DD)
- * @returns Formatted string (e.g., "Filmecules #329 - November 24, 2025")
+ * @returns Formatted string (e.g., "Filmclues #329 - November 24, 2025")
  */
 export function formatPuzzleHeader(dateString: string): string {
   const puzzleNumber = getPuzzleNumber(dateString);
   const formattedDate = formatDate(dateString);
-  return `Filmecules #${puzzleNumber} - ${formattedDate}`;
+  return `${SITE_NAME} #${puzzleNumber} - ${formattedDate}`;
 }
 
 export function getTextLengthProps(title: string) {
